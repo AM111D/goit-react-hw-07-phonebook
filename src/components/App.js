@@ -5,14 +5,14 @@ import Filter from './Filter/Filter';
 import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
 
-import { addContact } from './store/contactsSlice';
+import { deleteContacts } from './store/contactsSlice';
 
 function App() {
   const dispatch = useDispatch();
 
   const handleAddContact = (name, number) => {
     const id = nanoid();
-    dispatch(addContact({ id, name, number }));
+    dispatch(deleteContacts({ id, name, number }));
   };
   return (
     <div style={{ marginLeft: '50px' }}>

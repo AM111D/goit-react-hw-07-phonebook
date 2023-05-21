@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import css from './ContactForm.module.css';
 
 import { nanoid } from 'nanoid';
-import { addContact } from 'components/store/contactsSlice';
+import { addContactSuccess } from 'components/store/contactsSlice';
 import { useDispatch } from 'react-redux';
 
 function ContactForm() {
@@ -13,7 +13,7 @@ function ContactForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addContact({ id: nanoid(), name, number }));
+    dispatch(addContactSuccess({ id: nanoid(), name, number }));
     setName('');
     setNumber('');
   };
