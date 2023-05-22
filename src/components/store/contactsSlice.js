@@ -1,59 +1,61 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { addContact, deleteContact, fetchContacts } from './Contacts/operation';
 
 const initialState = {
-  contacts: [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ],
+  contacts: [],
   isLoading: false,
   error: null,
 };
 
-export const contactsSlice = createSlice({
+const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    addContactProcess: state => {
-      state.isLoading = true;
+    contactExists(state, action) {
+      const { payload } = action;
+      const existingContact = state.contacts.find(
+        contact => contact.name === payload.name
+      );
+      if (existingContact) {
+        console.log('Контакт с таким именем уже существует:', existingContact);
+      }
     },
-    addContactSuccess: {
-      reducer: (state, action) => {
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchContacts.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(fetchContacts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-
-        const checkNameContacts = state.contacts.find(
-          contact => contact.name === action.payload.name
-        );
-        if (checkNameContacts) {
-          console.log(
-            'Контакт с таким именем уже существует:',
-            checkNameContacts
-          );
-          return;
-        }
+        state.contacts = action.payload;
+      })
+      .addCase(fetchContacts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(addContact.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(addContact.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
         state.contacts.push(action.payload);
-      },
-      prepare: payload => ({ payload }),
-    },
-    addContactRejected: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    deleteContacts: {
-      reducer: (state, action) => {
+      })
+      .addCase(deleteContact.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
         state.contacts = state.contacts.filter(el => el.id !== action.payload);
-      },
-    },
-    prepare: payload => ({ payload }),
+        window.location.reload();
+      })
+      .addCase(deleteContact.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const {
-  addContactProcess,
-  addContactSuccess,
-  addContactRejected,
-  deleteContacts,
-} = contactsSlice.actions;
+export const { contactExists } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

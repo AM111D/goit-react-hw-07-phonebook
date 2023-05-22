@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import css from './ContactForm.module.css';
-
 import { nanoid } from 'nanoid';
-import { addContactSuccess } from 'components/store/contactsSlice';
 import { useDispatch } from 'react-redux';
+import { addContact } from 'components/store/Contacts/operation';
 
 function ContactForm() {
   const dispatch = useDispatch();
@@ -13,10 +12,15 @@ function ContactForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addContactSuccess({ id: nanoid(), name, number }));
+    dispatch(addContact({ id: nanoid(), name, number }));
     setName('');
     setNumber('');
   };
+
+  // const handleAddContact = (name, number) => {
+  //   const id = nanoid();
+  //   dispatch(addContact({ id, name, number }));
+  // };
 
   const handleChange = e => {
     const { name, value } = e.target;

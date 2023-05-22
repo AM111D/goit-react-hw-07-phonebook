@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ContactList from './ContactList/ContactList';
 import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
-
-import { deleteContacts } from './store/contactsSlice';
+import { addContact, fetchContacts } from './store/Contacts/operation';
 
 function App() {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   const handleAddContact = (name, number) => {
     const id = nanoid();
-    dispatch(deleteContacts({ id, name, number }));
+    dispatch(addContact({ id, name, number }));
   };
   return (
     <div style={{ marginLeft: '50px' }}>

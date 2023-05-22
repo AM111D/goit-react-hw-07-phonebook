@@ -9,4 +9,4 @@ export const filterSlice = createSlice({
 });
 
 export const { upDate } = filterSlice.actions;
-export const filterReducer = filterSlice.reducer;
+// export const filterReducer = filterSlice.reducer;
