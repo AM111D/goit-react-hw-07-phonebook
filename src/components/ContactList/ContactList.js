@@ -8,7 +8,7 @@ const ContactList = () => {
   const dispatch = useDispatch();
 
   const contacts = useSelector(getContacts);
-  // console.log(contacts);
+
   const filters = useSelector(getFilterValue);
   console.log(filters);
 

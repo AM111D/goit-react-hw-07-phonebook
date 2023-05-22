@@ -17,11 +17,6 @@ function ContactForm() {
     setNumber('');
   };
 
-  // const handleAddContact = (name, number) => {
-  //   const id = nanoid();
-  //   dispatch(addContact({ id, name, number }));
-  // };
-
   const handleChange = e => {
     const { name, value } = e.target;
 
